@@ -59,7 +59,7 @@ class TMemoryBuffer extends TTransport
 
     public function read($len)
     {
-        if (strlen($this->buf_) === 0) {
+        if (0 === strlen($this->buf_)) {
             throw new TTransportException('TMemoryBuffer: Could not read '.
                                     $len.' bytes from buffer.',
                                     TTransportException::UNKNOWN);

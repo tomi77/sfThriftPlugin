@@ -65,6 +65,7 @@ final class ThriftProtocolFactory
                     'host = "%s", port = %d, uri = "%s", scheme = "%s", timeout = %d',
                     $host, $port, $uri, $scheme, $timeout
                 );
+
                 break;
             case 'TMemoryBuffer':
                 $buf = isset($param['buf']) ? $param['buf'] : '';
@@ -72,6 +73,7 @@ final class ThriftProtocolFactory
                 $connector = new TMemoryBuffer($buf);
 
                 $parameters = sprintf('buf = "%s"', $buf);
+
                 break;
             case 'TPhpStream':
                 if (!isset($param['mode'])) {
@@ -82,6 +84,7 @@ final class ThriftProtocolFactory
                 $connector = new TPhpStream($mode);
 
                 $parameters = sprintf('mode = %d', $mode);
+
                 break;
             case 'TSocket':
                 $host = isset($param['host']) ? $param['host'] : 'localhost';
@@ -98,6 +101,7 @@ final class ThriftProtocolFactory
                     'host = "%s", port = %d, persist = %s, send_timeout = %d, recv_timeout = %d',
                     $host, $port, $persist ? 'true' : 'false', $send_timeout, $recv_timeout
                 );
+
                 break;
             case 'TSocketPool':
                 $hosts = isset($param['hosts']) ? $param['hosts'] : ['localhost'];
@@ -115,6 +119,7 @@ final class ThriftProtocolFactory
                     implode('","', $hosts), implode('","', $ports),
                     $persist ? 'true' : 'false', $send_timeout, $recv_timeout
                 );
+
                 break;
             default:
                 throw new Exception('Unknown connector: '.$class);
@@ -149,6 +154,7 @@ final class ThriftProtocolFactory
                 $parameters = sprintf(
                     'read_buf_size = %d, write_buf_size = %d', $rBufSize, $wBufSize
                 );
+
                 break;
             case 'TFramedTransport':
                 $read = isset($param['read']) ? $param['read'] : true;
@@ -160,11 +166,13 @@ final class ThriftProtocolFactory
                     'read = %s, write = %s', $read ? 'true' : 'false',
                     $write ? 'true' : 'false'
                 );
+
                 break;
             case 'TNullTransport':
                 $transport = new TNullTransport();
 
                 $parameters = 'NONE';
+
                 break;
             default:
                 throw new Exception('Unknown transport: '.$class);
@@ -200,6 +208,7 @@ final class ThriftProtocolFactory
                     'strictRead = %s, strictWrite = %s', $strictRead ? 'true' : 'false',
                     $strictWrite ? 'true' : 'false'
                 );
+
                 break;
             case 'TBinaryProtocolAccelerated':
                 $strictRead = isset($param['strict_read']) ? $param['strict_read'] : false;
@@ -211,6 +220,7 @@ final class ThriftProtocolFactory
                     'strictRead = %s, strictWrite = %s', $strictRead ? 'true' : 'false',
                     $strictWrite ? 'true' : 'false'
                 );
+
                 break;
             case 'TCompactProtocol':
                 $protocol = new TCompactProtocol($transport);

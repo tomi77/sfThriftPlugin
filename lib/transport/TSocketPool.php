@@ -109,7 +109,7 @@ class TSocketPool extends TSocket
 
         foreach ($hosts as $key => $host) {
             $this->servers_[] = ['host' => $host,
-                                'port'  => $ports[$key], ];
+                                'port' => $ports[$key], ];
         }
     }
 
@@ -190,9 +190,8 @@ class TSocketPool extends TSocket
         // Count servers to identify the "last" one
         $numServers = count($this->servers_);
 
-        for ($i = 0; $i < $numServers; $i++) {
-
-      // This extracts the $host and $port variables
+        for ($i = 0; $i < $numServers; ++$i) {
+            // This extracts the $host and $port variables
             extract($this->servers_[$i]);
 
             // Check APC cache for a record of this server being down
@@ -200,7 +199,7 @@ class TSocketPool extends TSocket
 
             // Cache miss? Assume it's OK
             $lastFailtime = apc_fetch($failtimeKey);
-            if ($lastFailtime === false) {
+            if (false === $lastFailtime) {
                 $lastFailtime = 0;
             }
 
@@ -227,16 +226,15 @@ class TSocketPool extends TSocket
                 $isLastServer = ($i == ($numServers - 1));
             }
 
-            if (($lastFailtime === 0) ||
+            if ((0 === $lastFailtime) ||
           ($isLastServer) ||
           ($lastFailtime > 0 && $retryIntervalPassed)) {
-
-        // Set underlying TSocket params to this one
+                // Set underlying TSocket params to this one
                 $this->host_ = $host;
                 $this->port_ = $port;
 
                 // Try up to numRetries_ connections per server
-                for ($attempt = 0; $attempt < $this->numRetries_; $attempt++) {
+                for ($attempt = 0; $attempt < $this->numRetries_; ++$attempt) {
                     try {
                         // Use the underlying TSocket open function
                         parent::open();
@@ -258,12 +256,12 @@ class TSocketPool extends TSocket
 
                 // Ignore cache misses
                 $consecfails = apc_fetch($consecfailsKey);
-                if ($consecfails === false) {
+                if (false === $consecfails) {
                     $consecfails = 0;
                 }
 
                 // Increment by one
-                $consecfails++;
+                ++$consecfails;
 
                 // Log and cache this failure
                 if ($consecfails >= $this->maxConsecutiveFailures_) {

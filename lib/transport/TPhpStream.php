@@ -27,6 +27,7 @@
 class TPhpStream extends TTransport
 {
     const MODE_R = 1;
+
     const MODE_W = 2;
 
     private $inStream_ = null;
@@ -81,7 +82,7 @@ class TPhpStream extends TTransport
     public function read($len)
     {
         $data = @fread($this->inStream_, $len);
-        if ($data === false || $data === '') {
+        if (false === $data || '' === $data) {
             throw new TException('TPhpStream: Could not read '.$len.' bytes');
         }
 
@@ -92,7 +93,7 @@ class TPhpStream extends TTransport
     {
         while (strlen($buf) > 0) {
             $got = @fwrite($this->outStream_, $buf);
-            if ($got === 0 || $got === false) {
+            if (0 === $got || false === $got) {
                 throw new TException('TPhpStream: Could not write '.strlen($buf).' bytes');
             }
             $buf = substr($buf, $got);
@@ -106,7 +107,7 @@ class TPhpStream extends TTransport
 
     private static function inStreamName()
     {
-        if (php_sapi_name() == 'cli') {
+        if ('cli' == php_sapi_name()) {
             return 'php://stdin';
         }
 

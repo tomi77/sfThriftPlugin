@@ -26,18 +26,25 @@
 class TApplicationException extends TException
 {
     public static $_TSPEC =
-    [1 => ['var'            => 'message',
+    [1 => ['var' => 'message',
                      'type' => TType::STRING, ],
-          2 => ['var'       => 'code',
+          2 => ['var' => 'code',
                      'type' => TType::I32, ], ];
 
     const UNKNOWN = 0;
+
     const UNKNOWN_METHOD = 1;
+
     const INVALID_MESSAGE_TYPE = 2;
+
     const WRONG_METHOD_NAME = 3;
+
     const BAD_SEQUENCE_ID = 4;
+
     const MISSING_RESULT = 5;
+
     const INTERNAL_ERROR = 6;
+
     const PROTOCOL_ERROR = 7;
 
     public function __construct($message = null, $code = 0)

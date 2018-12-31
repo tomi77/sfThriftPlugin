@@ -26,9 +26,11 @@
 class TBinaryProtocol extends TProtocol
 {
     const VERSION_MASK = 0xffff0000;
+
     const VERSION_1 = 0x80010000;
 
     protected $strictRead_ = false;
+
     protected $strictWrite_ = true;
 
     public function __construct($trans, $strictRead = false, $strictWrite = true)
@@ -177,9 +179,9 @@ class TBinaryProtocol extends TProtocol
                 $lo = ~$lo;
                 if (($lo & (int) 0xffffffff) == (int) 0xffffffff) {
                     $lo = 0;
-                    $hi++;
+                    ++$hi;
                 } else {
-                    $lo++;
+                    ++$lo;
                 }
             }
             $data = pack('N2', $hi, $lo);
@@ -261,7 +263,7 @@ class TBinaryProtocol extends TProtocol
     public function readFieldBegin(&$name, &$fieldType, &$fieldId)
     {
         $result = $this->readByte($fieldType);
-        if ($fieldType == TType::STOP) {
+        if (TType::STOP == $fieldType) {
             $fieldId = 0;
 
             return $result;
@@ -317,7 +319,7 @@ class TBinaryProtocol extends TProtocol
     {
         $data = $this->trans_->readAll(1);
         $arr = unpack('c', $data);
-        $value = $arr[1] == 1;
+        $value = 1 == $arr[1];
 
         return 1;
     }
@@ -375,10 +377,10 @@ class TBinaryProtocol extends TProtocol
                 $lo = ~$lo & (int) 0xffffffff;
 
                 if ($lo == (int) 0xffffffff) {
-                    $hi++;
+                    ++$hi;
                     $lo = 0;
                 } else {
-                    $lo++;
+                    ++$lo;
                 }
             }
 
@@ -401,8 +403,7 @@ class TBinaryProtocol extends TProtocol
                 $value = 0 - $value;
             }
         } else {
-
-      // Upcast negatives in LSB bit
+            // Upcast negatives in LSB bit
             if ($arr[2] & 0x80000000) {
                 $arr[2] = $arr[2] & 0xffffffff;
             }

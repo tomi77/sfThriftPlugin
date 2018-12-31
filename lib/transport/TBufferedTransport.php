@@ -89,7 +89,7 @@ class TBufferedTransport extends TTransport
 
     public function putBack($data)
     {
-        if (strlen($this->rBuf_) === 0) {
+        if (0 === strlen($this->rBuf_)) {
             $this->rBuf_ = $data;
         } else {
             $this->rBuf_ = ($data.$this->rBuf_);
@@ -108,7 +108,7 @@ class TBufferedTransport extends TTransport
     public function readAll($len)
     {
         $have = strlen($this->rBuf_);
-        if ($have == 0) {
+        if (0 == $have) {
             $data = $this->transport_->readAll($len);
         } elseif ($have < $len) {
             $data = $this->rBuf_;
@@ -127,7 +127,7 @@ class TBufferedTransport extends TTransport
 
     public function read($len)
     {
-        if (strlen($this->rBuf_) === 0) {
+        if (0 === strlen($this->rBuf_)) {
             $this->rBuf_ = $this->transport_->read($this->rBufSize_);
         }
 
