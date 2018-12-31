@@ -1,5 +1,7 @@
 # sfThrift plugin
 
+[![StyleCI](https://github.styleci.io/repos/49591288/shield?branch=master)](https://github.styleci.io/repos/49591288)
+
 A simple symfony 1.x [Apache Thrift](http://incubator.apache.org/thrift/) plugin. Base for other Thrift plugins.
 
 ## Installation
