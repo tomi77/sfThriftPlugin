@@ -213,7 +213,7 @@ abstract class TProtocol
         $result = $this->readStructBegin($name);
         while (true) {
             $result += $this->readFieldBegin($name, $ftype, $fid);
-            if ($ftype == TType::STOP) {
+            if (TType::STOP == $ftype) {
                 break;
             }
             $result += $this->skip($ftype);
@@ -226,7 +226,7 @@ abstract class TProtocol
     case TType::MAP:
       {
         $result = $this->readMapBegin($keyType, $valType, $size);
-        for ($i = 0; $i < $size; $i++) {
+        for ($i = 0; $i < $size; ++$i) {
             $result += $this->skip($keyType);
             $result += $this->skip($valType);
         }
@@ -237,7 +237,7 @@ abstract class TProtocol
     case TType::SET:
       {
         $result = $this->readSetBegin($elemType, $size);
-        for ($i = 0; $i < $size; $i++) {
+        for ($i = 0; $i < $size; ++$i) {
             $result += $this->skip($elemType);
         }
         $result += $this->readSetEnd();
@@ -247,7 +247,7 @@ abstract class TProtocol
     case TType::LST:
       {
         $result = $this->readListBegin($elemType, $size);
-        for ($i = 0; $i < $size; $i++) {
+        for ($i = 0; $i < $size; ++$i) {
             $result += $this->skip($elemType);
         }
         $result += $this->readListEnd();
@@ -297,7 +297,7 @@ abstract class TProtocol
             $data = $itrans->readAll(1);
             $arr = unpack('c', $data);
             $ftype = $arr[1];
-            if ($ftype == TType::STOP) {
+            if (TType::STOP == $ftype) {
                 break;
             }
             // I16 field id
@@ -325,7 +325,7 @@ abstract class TProtocol
             $size = 0 - (($size - 1) ^ 0xffffffff);
         }
         $result = 6;
-        for ($i = 0; $i < $size; $i++) {
+        for ($i = 0; $i < $size; ++$i) {
             $result += self::skipBinary($itrans, $ktype);
             $result += self::skipBinary($itrans, $vtype);
         }
@@ -347,7 +347,7 @@ abstract class TProtocol
             $size = 0 - (($size - 1) ^ 0xffffffff);
         }
         $result = 5;
-        for ($i = 0; $i < $size; $i++) {
+        for ($i = 0; $i < $size; ++$i) {
             $result += self::skipBinary($itrans, $vtype);
         }
 

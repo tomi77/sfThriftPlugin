@@ -38,8 +38,6 @@ class TServerSocket extends TServerTransport
      *
      * @param string $host Host to listen on
      * @param int    $port Port to listen on
-     *
-     * @return void
      */
     public function __construct($host = 'localhost', $port = 9090)
     {
@@ -51,8 +49,6 @@ class TServerSocket extends TServerTransport
      * Sets the accept timeout.
      *
      * @param int $acceptTimeout
-     *
-     * @return void
      */
     public function setAcceptTimeout($acceptTimeout)
     {
@@ -61,8 +57,6 @@ class TServerSocket extends TServerTransport
 
     /**
      * Opens a new socket server handle.
-     *
-     * @return void
      */
     public function listen()
     {
@@ -71,8 +65,6 @@ class TServerSocket extends TServerTransport
 
     /**
      * Closes the socket server handle.
-     *
-     * @return void
      */
     public function close()
     {

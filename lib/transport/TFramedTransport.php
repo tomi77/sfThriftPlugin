@@ -100,7 +100,7 @@ class TFramedTransport extends TTransport
             return $this->transport_->read($len);
         }
 
-        if (strlen($this->rBuf_) === 0) {
+        if (0 === strlen($this->rBuf_)) {
             $this->readFrame();
         }
 
@@ -126,7 +126,7 @@ class TFramedTransport extends TTransport
      */
     public function putBack($data)
     {
-        if (strlen($this->rBuf_) === 0) {
+        if (0 === strlen($this->rBuf_)) {
             $this->rBuf_ = $data;
         } else {
             $this->rBuf_ = ($data.$this->rBuf_);
@@ -157,7 +157,7 @@ class TFramedTransport extends TTransport
             return $this->transport_->write($buf, $len);
         }
 
-        if ($len !== null && $len < strlen($buf)) {
+        if (null !== $len && $len < strlen($buf)) {
             $buf = substr($buf, 0, $len);
         }
         $this->wBuf_ .= $buf;
@@ -169,7 +169,7 @@ class TFramedTransport extends TTransport
      */
     public function flush()
     {
-        if (!$this->write_ || strlen($this->wBuf_) == 0) {
+        if (!$this->write_ || 0 == strlen($this->wBuf_)) {
             return $this->transport_->flush();
         }
 

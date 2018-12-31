@@ -83,7 +83,7 @@ class THttpClient extends TTransport
      */
     public function __construct($host, $port = 80, $uri = '', $scheme = 'http')
     {
-        if ((strlen($uri) > 0) && ($uri[0] != '/')) {
+        if ((strlen($uri) > 0) && ('/' != $uri[0])) {
             $uri = '/'.$uri;
         }
         $this->scheme_ = $scheme;
@@ -147,7 +147,7 @@ class THttpClient extends TTransport
     public function read($len)
     {
         $data = @fread($this->handle_, $len);
-        if ($data === false || $data === '') {
+        if (false === $data || '' === $data) {
             $md = stream_get_meta_data($this->handle_);
             if ($md['timed_out']) {
                 throw new TTransportException('THttpClient: timed out reading '.$len.' bytes from '.$this->host_.':'.$this->port_.'/'.$this->uri_, TTransportException::TIMED_OUT);
@@ -179,7 +179,7 @@ class THttpClient extends TTransport
     public function flush()
     {
         // God, PHP really has some esoteric ways of doing simple things.
-        $host = $this->host_.($this->port_ != 80 ? ':'.$this->port_ : '');
+        $host = $this->host_.(80 != $this->port_ ? ':'.$this->port_ : '');
 
         $headers = ['Host: '.$host,
                      'Accept: application/x-thrift',
@@ -187,10 +187,10 @@ class THttpClient extends TTransport
                      'Content-Type: application/x-thrift',
                      'Content-Length: '.strlen($this->buf_), ];
 
-        $options = ['method'         => 'POST',
-                     'header'        => implode("\r\n", $headers),
+        $options = ['method' => 'POST',
+                     'header' => implode("\r\n", $headers),
                      'max_redirects' => 1,
-                     'content'       => $this->buf_, ];
+                     'content' => $this->buf_, ];
         if ($this->timeout_ > 0) {
             $options['timeout'] = $this->timeout_;
         }
@@ -200,7 +200,7 @@ class THttpClient extends TTransport
         $this->handle_ = @fopen($this->scheme_.'://'.$host.$this->uri_, 'r', false, $contextid);
 
         // Connect failed?
-        if ($this->handle_ === false) {
+        if (false === $this->handle_) {
             $this->handle_ = null;
             $error = 'THttpClient: Could not connect to '.$host.$this->uri_;
 

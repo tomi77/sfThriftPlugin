@@ -9,8 +9,6 @@ abstract class TServerTransport
      * List for new clients.
      *
      * @abstract
-     *
-     * @return void
      */
     abstract public function listen();
 
@@ -18,8 +16,6 @@ abstract class TServerTransport
      * Close the server.
      *
      * @abstract
-     *
-     * @return void
      */
     abstract public function close();
 
@@ -45,7 +41,7 @@ abstract class TServerTransport
     {
         $transport = $this->acceptImpl();
 
-        if ($transport == null) {
+        if (null == $transport) {
             throw new TTransportException('accept() may not return NULL');
         }
 

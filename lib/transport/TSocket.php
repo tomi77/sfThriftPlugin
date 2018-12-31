@@ -124,8 +124,6 @@ class TSocket extends TTransport
 
     /**
      * @param resource $handle
-     *
-     * @return void
      */
     public function setHandle($handle)
     {
@@ -135,7 +133,7 @@ class TSocket extends TTransport
     /**
      * Sets the send timeout.
      *
-     * @param int $timeout Timeout in milliseconds.
+     * @param int $timeout timeout in milliseconds
      */
     public function setSendTimeout($timeout)
     {
@@ -147,7 +145,7 @@ class TSocket extends TTransport
     /**
      * Sets the receive timeout.
      *
-     * @param int $timeout Timeout in milliseconds.
+     * @param int $timeout timeout in milliseconds
      */
     public function setRecvTimeout($timeout)
     {
@@ -228,7 +226,7 @@ class TSocket extends TTransport
         }
 
         // Connect failed?
-        if ($this->handle_ === false) {
+        if (false === $this->handle_) {
             $error = 'TSocket: Could not connect to '.$this->host_.':'.$this->port_.' ('.$errstr.' ['.$errno.'])';
             if ($this->debug_) {
                 call_user_func($this->debugHandler_, $error);
@@ -255,7 +253,7 @@ class TSocket extends TTransport
      * This method will not wait for all the requested data, it will return as
      * soon as any data is received.
      *
-     * @param int $len Maximum number of bytes to read.
+     * @param int $len maximum number of bytes to read
      *
      * @return string Binary data
      */
@@ -267,15 +265,15 @@ class TSocket extends TTransport
 
         if ($readable > 0) {
             $data = @stream_socket_recvfrom($this->handle_, $len);
-            if ($data === false) {
+            if (false === $data) {
                 throw new TTransportException('TSocket: Could not read '.$len.' bytes from '.
                                $this->host_.':'.$this->port_);
-            } elseif ($data == '' && feof($this->handle_)) {
+            } elseif ('' == $data && feof($this->handle_)) {
                 throw new TTransportException('TSocket read 0 bytes');
             }
 
             return $data;
-        } elseif ($readable === 0) {
+        } elseif (0 === $readable) {
             throw new TTransportException('TSocket: timed out reading '.$len.' bytes from '.
                              $this->host_.':'.$this->port_);
         } else {
@@ -301,13 +299,13 @@ class TSocket extends TTransport
             if ($writable > 0) {
                 // write buffer to stream
                 $written = @stream_socket_sendto($this->handle_, $buf);
-                if ($written === -1 || $written === false) {
+                if ($written === -1 || false === $written) {
                     throw new TTransportException('TSocket: Could not write '.strlen($buf).' bytes '.
                                    $this->host_.':'.$this->port_);
                 }
                 // determine how much of the buffer is left to write
                 $buf = substr($buf, $written);
-            } elseif ($writable === 0) {
+            } elseif (0 === $writable) {
                 throw new TTransportException('TSocket: timed out writing '.strlen($buf).' bytes from '.
                                $this->host_.':'.$this->port_);
             } else {

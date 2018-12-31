@@ -51,13 +51,13 @@ class TException extends Exception
         }
     }
 
-    public static $tmethod = [TType::BOOL   => 'Bool',
-                          TType::BYTE       => 'Byte',
-                          TType::I16        => 'I16',
-                          TType::I32        => 'I32',
-                          TType::I64        => 'I64',
-                          TType::DOUBLE     => 'Double',
-                          TType::STRING     => 'String', ];
+    public static $tmethod = [TType::BOOL => 'Bool',
+                          TType::BYTE => 'Byte',
+                          TType::I16 => 'I16',
+                          TType::I32 => 'I32',
+                          TType::I64 => 'I64',
+                          TType::DOUBLE => 'Double',
+                          TType::STRING => 'String', ];
 
     private function _readMap(&$var, $spec, $input)
     {
@@ -78,9 +78,9 @@ class TException extends Exception
         $var = [];
         $_ktype = $_vtype = $size = 0;
         $xfer += $input->readMapBegin($_ktype, $_vtype, $size);
-        for ($i = 0; $i < $size; $i++) {
+        for ($i = 0; $i < $size; ++$i) {
             $key = $val = null;
-            if ($kread !== null) {
+            if (null !== $kread) {
                 $xfer += $input->$kread($key);
             } else {
                 switch ($ktype) {
@@ -88,19 +88,23 @@ class TException extends Exception
           $class = $kspec['class'];
           $key = new $class();
           $xfer += $key->read($input);
+
           break;
         case TType::MAP:
           $xfer += $this->_readMap($key, $kspec, $input);
+
           break;
         case TType::LST:
           $xfer += $this->_readList($key, $kspec, $input, false);
+
           break;
         case TType::SET:
           $xfer += $this->_readList($key, $kspec, $input, true);
+
           break;
         }
             }
-            if ($vread !== null) {
+            if (null !== $vread) {
                 $xfer += $input->$vread($val);
             } else {
                 switch ($vtype) {
@@ -108,15 +112,19 @@ class TException extends Exception
           $class = $vspec['class'];
           $val = new $class();
           $xfer += $val->read($input);
+
           break;
         case TType::MAP:
           $xfer += $this->_readMap($val, $vspec, $input);
+
           break;
         case TType::LST:
           $xfer += $this->_readList($val, $vspec, $input, false);
+
           break;
         case TType::SET:
           $xfer += $this->_readList($val, $vspec, $input, true);
+
           break;
         }
             }
@@ -144,9 +152,9 @@ class TException extends Exception
         } else {
             $xfer += $input->readListBegin($_etype, $size);
         }
-        for ($i = 0; $i < $size; $i++) {
+        for ($i = 0; $i < $size; ++$i) {
             $elem = null;
-            if ($eread !== null) {
+            if (null !== $eread) {
                 $xfer += $input->$eread($elem);
             } else {
                 $espec = $spec['elem'];
@@ -155,15 +163,19 @@ class TException extends Exception
           $class = $espec['class'];
           $elem = new $class();
           $xfer += $elem->read($input);
+
           break;
         case TType::MAP:
           $xfer += $this->_readMap($elem, $espec, $input);
+
           break;
         case TType::LST:
           $xfer += $this->_readList($elem, $espec, $input, false);
+
           break;
         case TType::SET:
           $xfer += $this->_readList($elem, $espec, $input, true);
+
           break;
         }
             }
@@ -191,7 +203,7 @@ class TException extends Exception
         $xfer += $input->readStructBegin($fname);
         while (true) {
             $xfer += $input->readFieldBegin($fname, $ftype, $fid);
-            if ($ftype == TType::STOP) {
+            if (TType::STOP == $ftype) {
                 break;
             }
             if (isset($spec[$fid])) {
@@ -208,15 +220,19 @@ class TException extends Exception
               $class = $fspec['class'];
               $this->$var = new $class();
               $xfer += $this->$var->read($input);
+
               break;
             case TType::MAP:
               $xfer += $this->_readMap($this->$var, $fspec, $input);
+
               break;
             case TType::LST:
               $xfer += $this->_readList($this->$var, $fspec, $input, false);
+
               break;
             case TType::SET:
               $xfer += $this->_readList($this->$var, $fspec, $input, true);
+
               break;
             }
                     }
@@ -257,15 +273,19 @@ class TException extends Exception
                 switch ($ktype) {
         case TType::STRUCT:
           $xfer += $key->write($output);
+
           break;
         case TType::MAP:
           $xfer += $this->_writeMap($key, $kspec, $output);
+
           break;
         case TType::LST:
           $xfer += $this->_writeList($key, $kspec, $output, false);
+
           break;
         case TType::SET:
           $xfer += $this->_writeList($key, $kspec, $output, true);
+
           break;
         }
             }
@@ -275,15 +295,19 @@ class TException extends Exception
                 switch ($vtype) {
         case TType::STRUCT:
           $xfer += $val->write($output);
+
           break;
         case TType::MAP:
           $xfer += $this->_writeMap($val, $vspec, $output);
+
           break;
         case TType::LST:
           $xfer += $this->_writeList($val, $vspec, $output, false);
+
           break;
         case TType::SET:
           $xfer += $this->_writeList($val, $vspec, $output, true);
+
           break;
         }
             }
@@ -316,15 +340,19 @@ class TException extends Exception
                 switch ($etype) {
         case TType::STRUCT:
           $xfer += $elem->write($output);
+
           break;
         case TType::MAP:
           $xfer += $this->_writeMap($elem, $espec, $output);
+
           break;
         case TType::LST:
           $xfer += $this->_writeList($elem, $espec, $output, false);
+
           break;
         case TType::SET:
           $xfer += $this->_writeList($elem, $espec, $output, true);
+
           break;
         }
             }
@@ -354,15 +382,19 @@ class TException extends Exception
                     switch ($ftype) {
           case TType::STRUCT:
             $xfer += $this->$var->write($output);
+
             break;
           case TType::MAP:
             $xfer += $this->_writeMap($this->$var, $fspec, $output);
+
             break;
           case TType::LST:
             $xfer += $this->_writeList($this->$var, $fspec, $output, false);
+
             break;
           case TType::SET:
             $xfer += $this->_writeList($this->$var, $fspec, $output, true);
+
             break;
           }
                 }
