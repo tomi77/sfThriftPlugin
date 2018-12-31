@@ -1,32 +1,32 @@
 # sfThrift plugin
 
-A simple [Apache Thrift](http://incubator.apache.org/thrift/) plugin. Base for other Thrift plugins.
-
 A simple symfony 1.x [Apache Thrift](http://incubator.apache.org/thrift/) plugin. Base for other Thrift plugins.
 
 ## Installation
 
   * Install the plugin
 
-        $ symfony plugin:install sfThriftPlugin
+    ~~~sh
+    $ symfony plugin:install sfThriftPlugin
+    ~~~
 
 ## Configuration
 
   * Configuration is in app.yml:
 
     ~~~yaml
-        all:
-          thrift_plugin:
-            default:
-              connector:
-                class: TSocket
-                param:
-                  host: 127.0.0.1
-                  port: 9090
-              transport:
-                class: TBufferedTransport
-              protocol:
-                class: TBinaryProtocol
+    all:
+      thrift_plugin:
+        default:
+          connector:
+            class: TSocket
+            param:
+              host: 127.0.0.1
+              port: 9090
+          transport:
+            class: TBufferedTransport
+          protocol:
+            class: TBinaryProtocol
     ~~~
 
 ## Connectors
@@ -149,7 +149,7 @@ A simple symfony 1.x [Apache Thrift](http://incubator.apache.org/thrift/) plugin
   * Create a client object:
 
     ~~~php
-        $service = new example_serviceClient(ThriftProtocolFactory::factory());
+    $service = new example_serviceClient(ThriftProtocolFactory::factory());
     ~~~
 
 ## More Thrift services
@@ -157,37 +157,37 @@ A simple symfony 1.x [Apache Thrift](http://incubator.apache.org/thrift/) plugin
 We can create many named configurations:
 
 ~~~yaml
-    all:
-      thrift_plugin:
-        # First service configuration
-        service1:
-          connector:
-            class: TSocket
-            param:
-              host: 127.0.0.1
-              port: 9090
-          transport:
-            class: TBufferedTransport
-          protocol:
-            class: TBinaryProtocol
-        # Second service configuration
-        service2:
-          connector:
-            class: TSocket
-            param:
-              host: 192.168.1.1
-              port: 9091
-          transport:
-            class: TFramedTransport
-          protocol:
-            class: TBinaryProtocolAccelerated
+all:
+  thrift_plugin:
+    # First service configuration
+    service1:
+      connector:
+        class: TSocket
+        param:
+          host: 127.0.0.1
+          port: 9090
+      transport:
+        class: TBufferedTransport
+      protocol:
+        class: TBinaryProtocol
+    # Second service configuration
+    service2:
+      connector:
+        class: TSocket
+        param:
+          host: 192.168.1.1
+          port: 9091
+      transport:
+        class: TFramedTransport
+      protocol:
+        class: TBinaryProtocolAccelerated
 ~~~
 
 Now we can use it:
 
 ~~~php
-    $service1 = new FirstClient(ThriftProtocolFactory::factory('service1'));
-    $service2 = new SecondClient(ThriftProtocolFactory::factory('service2'));
+$service1 = new FirstClient(ThriftProtocolFactory::factory('service1'));
+$service2 = new SecondClient(ThriftProtocolFactory::factory('service2'));
 ~~~
 
 ## Example
@@ -197,21 +197,21 @@ This is example from Thrift project site:
 1. Create `UserStorage.thrift` file:
 
    ~~~
-        struct UserProfile {
-          1: i32 uid,
-          2: string name,
-          3: string blurb
-        }
-        service UserStorage {
-          void store(1: UserProfile user),
-          UserProfile retrieve(1: i32 uid)
-        }
+   struct UserProfile {
+     1: i32 uid,
+     2: string name,
+     3: string blurb
+   }
+   service UserStorage {
+     void store(1: UserProfile user),
+     UserProfile retrieve(1: i32 uid)
+   }
    ~~~
 
 2. Generate UserStorage service files for PHP:
 
    ~~~sh
-        thrift --gen php UserStorage.thrift
+   thrift --gen php UserStorage.thrift
    ~~~
 
 3. Move generated files to proper place (like lib/thrift folder)
@@ -221,7 +221,7 @@ This is example from Thrift project site:
 5. Use client:
 
    ~~~php
-        $service = new UserStorageClient(ThriftProtocolFactory::factory());
-        $service->store($user);
-        $user2 = $service->retrieve(1);
+   $service = new UserStorageClient(ThriftProtocolFactory::factory());
+   $service->store($user);
+   $user2 = $service->retrieve(1);
    ~~~
