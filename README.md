@@ -2,6 +2,8 @@
 
 A simple [Apache Thrift](http://incubator.apache.org/thrift/) plugin. Base for other Thrift plugins.
 
+A simple symfony 1.x [Apache Thrift](http://incubator.apache.org/thrift/) plugin. Base for other Thrift plugins.
+
 ## Installation
 
   * Install the plugin
@@ -12,6 +14,7 @@ A simple [Apache Thrift](http://incubator.apache.org/thrift/) plugin. Base for o
 
   * Configuration is in app.yml:
 
+    ~~~yaml
         all:
           thrift_plugin:
             default:
@@ -24,6 +27,7 @@ A simple [Apache Thrift](http://incubator.apache.org/thrift/) plugin. Base for o
                 class: TBufferedTransport
               protocol:
                 class: TBinaryProtocol
+    ~~~
 
 ## Connectors
 
@@ -134,7 +138,9 @@ A simple [Apache Thrift](http://incubator.apache.org/thrift/) plugin. Base for o
 
   * Generate files
 
-        $ thrift --gen php example.thrift
+    ~~~sh
+    thrift --gen php example.thrift
+    ~~~
 
   * Copy those generated files to your project lib directory
 
@@ -142,12 +148,15 @@ A simple [Apache Thrift](http://incubator.apache.org/thrift/) plugin. Base for o
 
   * Create a client object:
 
+    ~~~php
         $service = new example_serviceClient(ThriftProtocolFactory::factory());
+    ~~~
 
 ## More Thrift services
 
 We can create many named configurations:
 
+~~~yaml
     all:
       thrift_plugin:
         # First service configuration
@@ -172,11 +181,14 @@ We can create many named configurations:
             class: TFramedTransport
           protocol:
             class: TBinaryProtocolAccelerated
+~~~
 
 Now we can use it:
 
+~~~php
     $service1 = new FirstClient(ThriftProtocolFactory::factory('service1'));
     $service2 = new SecondClient(ThriftProtocolFactory::factory('service2'));
+~~~
 
 ## Example
 
@@ -184,6 +196,7 @@ This is example from Thrift project site:
 
 1. Create `UserStorage.thrift` file:
 
+   ~~~
         struct UserProfile {
           1: i32 uid,
           2: string name,
@@ -193,10 +206,13 @@ This is example from Thrift project site:
           void store(1: UserProfile user),
           UserProfile retrieve(1: i32 uid)
         }
+   ~~~
 
 2. Generate UserStorage service files for PHP:
 
+   ~~~sh
         thrift --gen php UserStorage.thrift
+   ~~~
 
 3. Move generated files to proper place (like lib/thrift folder)
 
@@ -204,6 +220,8 @@ This is example from Thrift project site:
 
 5. Use client:
 
+   ~~~php
         $service = new UserStorageClient(ThriftProtocolFactory::factory());
         $service->store($user);
         $user2 = $service->retrieve(1);
+   ~~~
