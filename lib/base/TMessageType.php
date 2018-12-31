@@ -20,13 +20,13 @@
  * @package thrift
  */
 
-
 /**
- * Message types for RPC
+ * Message types for RPC.
  */
-class TMessageType {
-  const CALL  = 1;
-  const REPLY = 2;
-  const EXCEPTION = 3;
-  const ONEWAY = 4;
+class TMessageType
+{
+    const CALL = 1;
+    const REPLY = 2;
+    const EXCEPTION = 3;
+    const ONEWAY = 4;
 }
