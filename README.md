@@ -9,7 +9,7 @@ A simple symfony 1.x [Apache Thrift](http://incubator.apache.org/thrift/) plugin
   * Install the plugin
 
     ~~~sh
-    $ symfony plugin:install sfThriftPlugin
+    $ composer require tomasz-rup/sf-thrift-plugin
     ~~~
 
 ## Configuration

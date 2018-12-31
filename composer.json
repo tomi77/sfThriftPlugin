@@ -1,0 +1,21 @@
+{
+    "name": "tomasz-rup/sf-thrift-plugin",
+    "type": "symfony1-plugin",
+    "description": "symfony 1.x Apache Thrift plugin",
+    "keywords": ["symfony1", "thrift"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tomasz Jakub Rup",
+            "email": "tomasz.rup@gmail.com",
+            "role": "Creator"
+        }
+    ],
+    "support": {
+      "issues": "https://github.com/tomi77/sfThriftPlugin/issues",
+      "source": "https://github.com/tomi77/sfThriftPlugin"
+    },
+    "require": {
+        "symfony/symfony1": "*"
+    }
+}
